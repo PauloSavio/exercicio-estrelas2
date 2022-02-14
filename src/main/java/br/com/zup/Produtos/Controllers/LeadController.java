@@ -1,4 +1,4 @@
-package br.com.zup.Produtos;
+package br.com.zup.Produtos.Controllers;
 
 import br.com.zup.Produtos.Dtos.LeadDTO;
 import br.com.zup.Produtos.Services.LeadService;
