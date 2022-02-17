@@ -5,6 +5,7 @@ import br.com.zup.Produtos.Services.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,7 +19,11 @@ public class LeadController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void cadastrarLead(@RequestBody LeadDTO leadDTO){
-        leadService.cadastrarLead(leadDTO);
+        try{
+            leadService.cadastrarLead(leadDTO);
+        }catch (RuntimeException exception){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
+        }
     }
 
     @GetMapping

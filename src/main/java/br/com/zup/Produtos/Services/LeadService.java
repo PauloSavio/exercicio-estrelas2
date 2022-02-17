@@ -16,9 +16,13 @@ public class LeadService {
     public void cadastrarLead(LeadDTO leadDTO){
         try{
             verificarLeadEProduto(leadDTO);
-            leads.add(leadDTO);
+            //método atualizar ao inves do .add
+            LeadDTO leadDaLista = buscarLead(leadDTO.getEmail());
+            atualizarListaDeProdutos(leadDTO.getProdutos(), leadDaLista);
+
         }catch (LeadEProdutoJaCadastradoException exception){
             throw new RuntimeException(exception.getMessage());
+
         }catch (LeadNaoEncontradoException exception){
             leads.add(leadDTO);
         }
@@ -50,6 +54,13 @@ public class LeadService {
             }
         }
         return false;
+    }
+
+    //método do Vini para atualizar a lista e não sobrescrever
+    public void atualizarListaDeProdutos (List<ProdutosDTO> novosProdutos, LeadDTO leadParaAtualizar){
+        for (ProdutosDTO produtosDTO : novosProdutos){
+            leadParaAtualizar.getProdutos().add(produtosDTO);
+        }
     }
 
     public List<LeadDTO> exibirLeads(){
